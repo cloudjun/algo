@@ -10,7 +10,6 @@ public class DropXbox {
                 values[i][j] = -1;
             }
         }
-
         return dropXbox(n, k);
     }
 
