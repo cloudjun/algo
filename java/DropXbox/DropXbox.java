@@ -4,6 +4,7 @@ public class DropXbox {
     int[][] values; // cached values for each n, k combination
 
     public int start(int n, int k) {
+        // initialize cache
         values = new int[n][k];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < k; j++) {
@@ -13,6 +14,11 @@ public class DropXbox {
         return dropXbox(n, k);
     }
 
+    /**
+     * @param n number of xboxes
+     * @param k number of stories
+     * @return the min number for the drops for a given n and k combination
+     */
     private int dropXbox(int n, int k) {
         // n<=0 or k<=0 doesn't have any physical meaning. Return 0.
         if (n <= 0 || k <= 0) {
