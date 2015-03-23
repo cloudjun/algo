@@ -19,8 +19,10 @@ This problem can also be solved by Dynamic Programming. Due to time constraints,
 Question #2
 ---------------
 **Assumptions**
->The player has to quit the game to change the region or mode.
->Region and Mode are both enums.
+
+> - The player has to quit the game to change the region or mode.
+> - Region and Mode are both enums.
+
 
 **Restful API specification**
 
@@ -76,6 +78,7 @@ We will have four restful web services. And with Jersey annotations they are
     Output type is Mode, which is the most popular mode for the given region.
     
     
+    
 **Service layer design**
 <img src="epic_design.png">
 
@@ -83,6 +86,7 @@ Please refer to the "Explanation" section for the details about the above system
 
 
 <img src="epic_class.png">
+
 
 **Persistence layer design**
 
@@ -105,6 +109,7 @@ The persistence layer will store all the events it received in an Event Sourcing
     UUID       | varchar(36)
 
 So each and every event (gameId, region, mode, enterOrQuit) will be recorded in the database together with a timestamp. This event sourcing style persistence will help us replay all the events and show the state of the system in any past point of time of interest. For example we can easily find what the most popular game mode for a region at 2pm yesterday from a reporting perspective. We can even save calculation cost by calculating every, say, 10000 events. It is like taking snapshots, and a new calculation can be calculated from its most recent snapshot point. 
+
 
 **Explanation**
 
