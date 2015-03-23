@@ -27,11 +27,17 @@ Question #2
 
 We will have four restful web services. And with Jersey annotations they are
 >**"enterGame" web service**
+
     @PUT
+
     @Path("/gameCommandWebService/enterGame")
+
     @Consumes(MediaType.APPLICATION_JSON)
+
     @Produces(MediaType.APPLICATION_JSON)
+
     Input type is a json payload of Region (an enum value) and Mode (an enum value).
+
     Output type is UUID, which is the system generated game ID.
 
 >**"quitGame" web service**
