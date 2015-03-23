@@ -19,9 +19,8 @@ This problem can also be solved by Dynamic Programming. Due to time constraints,
 Question #2
 ---------------
 **Assumptions**
-
-:  The player has to quit the game to change the region or mode.
-:  Region and Mode are both enums.
+>The player has to quit the game to change the region or mode.
+>Region and Mode are both enums.
 
 **Restful API specification**
 
@@ -41,24 +40,39 @@ We will have four restful web services. And with Jersey annotations they are
     Output type is UUID, which is the system generated game ID.
 
 >**"quitGame" web service**
+
     @PUT
+
     @Path("/gameCommandWebService/quitGame")
+
     @Consumes(MediaType.APPLICATION_JSON)
+
     Input type is a json payload of UUID for an existing game.
+
     There is will be no output, but just a HTTP 200 to indicate OK or other HTTP status code.
 
 >**"getRegionAndMode" web service**
+
     @GET
+
     @Path("/gameQueryWebService/getRegionAndMode/{gameId}")
+
     @Produces(MediaType.APPLICATION_JSON)
+
     @PathParam("gameId") - UUID
+
     Output type is Pair&lt;Region, Mode>, which is the corresponding region and mode for the game ID. It will return null if no such game ID is found.
 
 >**"getMostPopularMode" web service**
+
     @GET
+
     @Path("/gameQueryWebService/getMostPopularMode/{region}")
+
     @Produces(MediaType.APPLICATION_JSON)
+
     @PathParam("region") - Region
+
     Output type is Mode, which is the most popular mode for the given region.
     
     
