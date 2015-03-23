@@ -19,10 +19,12 @@ This problem can also be solved by Dynamic Programming. Due to time constraints,
 Question #2
 ---------------
 **Assumptions**
+
 :  The player has to quit the game to change the region or mode.
 :  Region and Mode are both enums.
 
 **Restful API specification**
+
 We will have four restful web services. And with Jersey annotations they are
 >**"enterGame" web service**
     @PUT
@@ -53,6 +55,7 @@ We will have four restful web services. And with Jersey annotations they are
     @PathParam("region") - Region
     Output type is Mode, which is the most popular mode for the given region.
     
+    
 **Service layer design**
 <img src="epic_design.png">
 
@@ -62,7 +65,8 @@ Please refer to the "Explanation" section for the details about the above system
 <img src="epic_class.png">
 
 **Persistence layer design**
-    The persistence layer will store all the events it received in an Event Sourcing style. Assuming there is already a Region table and Mode table, it will persist the following fields for each event in the database (oracle):
+
+The persistence layer will store all the events it received in an Event Sourcing style. Assuming there is already a Region table and Mode table, it will persist the following fields for each event in the database (oracle):
     
     Field Name | Type
     ---------- | -----
@@ -83,6 +87,7 @@ Please refer to the "Explanation" section for the details about the above system
 So each and every event (gameId, region, mode, enterOrQuit) will be recorded in the database together with a timestamp. This event sourcing style persistence will help us replay all the events and show the state of the system in any past point of time of interest. For example we can easily find what the most popular game mode for a region at 2pm yesterday from a reporting perspective. We can even save calculation cost by calculating every, say, 10000 events. It is like taking snapshots, and a new calculation can be calculated from its most recent snapshot point. 
 
 **Explanation**
+
 For scalability reasons, we can put "enterGame" web service and "quitGame" web service into a separate deployment other than the other two web services. So when "enterGame" web service is called, it will generate a new game id, asynchronously send the game id, region, mode and enterOrQuit=true over to JMS (or preferably kafka) and return the game id. When "quitGame" web service is called, it will just asynchronously send the game id, region, mode and enterOrQuit=false over.
 
 Kafka will then publish the event to all its subscribers, which are the GameService instance(s) living in the same JVM as the GameQueryWebService instance(s). Upon receiving the event, the GameService will grab the counter for the corresponding region and mode from its "mostPopularMap" and start some atomic operation to either increase or decrease the counter by one. There will be no concurrent contentions for the "mostPopularMap", since all the keys are pre-defined (region and mode), and the value (the counter) is accessed using atomic operations. The GameService will also need to update the "gameRegionModeMap", which will be a ConcurrentHashMap. It will add an entry for an enterGame event, and remove an entry for the quitGame event.
