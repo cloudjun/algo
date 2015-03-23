@@ -4,6 +4,9 @@ public class DropXbox {
     int[][] values; // cached values for each n, k combination
 
     public int start(int n, int k) {
+        if (n <= 0 || k <= 0) {
+            return 0;
+        }
         // initialize cache
         values = new int[n][k];
         for (int i = 0; i < n; i++) {

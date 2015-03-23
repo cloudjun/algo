@@ -22,7 +22,7 @@ Question #2
 
 > - The player has to quit the game to change the region or mode.
 > - Region and Mode are both enums.
-
+> - Assume an average player will join or quit a game every 5 to 10 minutes.
 
 **Restful API specification**
 
@@ -119,4 +119,4 @@ Kafka will then publish the event to all its subscribers, which are the GameServ
 
 When "getRegionAndMode" web service or "getMostPopularMode" web service is called, the web service will call the same method in GameService. "getRegionAndMode" in GameService will simply return the value in "gameRegionModeMap" by the game ID, and "getMostPopularMode" in GameService will get the Mode with the largest counter value in a specific region.
 
-This architecture should scale to support millions of concurrent users as it is designed to provide near linear scalability. We can simply add more web containers to share the load of concurrent users. The state of region/mode is cached locally in the same JVM as the web service. Each web container has its own complete copy of that state. The only possible bottleneck would be the JMS/kafka message broker. But by using kafka which has higher throughput and scalability compared with JMS, and can be clustered, it should be able to handle that amount of load.
+This architecture should scale to support millions of concurrent users as it is designed to provide near linear scalability. We can simply add more web containers to share the load of concurrent users. The state of region/mode is cached locally in the same JVM as the web service. Each web container has its own complete copy of that state. The only possible bottleneck would be the JMS/kafka message broker. But by using kafka which has higher throughput and scalability compared with JMS, and can be clustered, it should be able to handle that amount of load. Also, when GameService receives an event, it can utilize the Actor model to process more complicated logic, in order to achieve greater performance. We did not use an actor here because the logic here is simple enough and by using AtomicInteger we already ensure sequential processing without locking.
