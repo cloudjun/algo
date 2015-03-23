@@ -53,8 +53,10 @@ We will have four restful web services. And with Jersey annotations they are
     Output type is Mode, which is the most popular mode for the given region.
     
 **Service layer design**
-[<img src="epic_design.png">]
-[<img src="epic_class.png">]
+<img src="epic_design.png">
+Please refer to the "Explanation" section for the details about the above system design picture.
+
+<img src="epic_class.png">
 
 **Persistence layer design**
     The persistence layer will store all the events it received in an Event Sourcing style. Assuming there is already a Region table and Mode table, it will persist the following fields for each event in the database (oracle):
