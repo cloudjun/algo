@@ -1,4 +1,4 @@
-package DropXbox;
+package TestQuestions;
 
 public class DropXbox {
     int[][] values; // cached values for each n, k combination
