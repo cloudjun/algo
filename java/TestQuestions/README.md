@@ -120,3 +120,13 @@ Kafka will then publish the event to all its subscribers, which are the GameServ
 When "getRegionAndMode" web service or "getMostPopularMode" web service is called, the web service will call the same method in GameService. "getRegionAndMode" in GameService will simply return the value in "gameRegionModeMap" by the game ID, and "getMostPopularMode" in GameService will get the Mode with the largest counter value in a specific region.
 
 This architecture should scale to support millions of concurrent users as it is designed to provide near linear scalability. We can simply add more web containers to share the load of concurrent users. The state of region/mode is cached locally in the same JVM as the web service. Each web container has its own complete copy of that state. The only possible bottleneck would be the JMS/kafka message broker. But by using kafka which has higher throughput and scalability compared with JMS, and can be clustered, it should be able to handle that amount of load. Also, when GameService receives an event, it can utilize the Actor model to process more complicated logic, in order to achieve greater performance. We did not use an actor here because the logic here is simple enough and by using AtomicInteger we already ensure sequential processing without locking.
+
+
+Question #3
+---------------
+Please refer to MatrixOrder.java for the solution. I would verify the correctness of my solution by unit testing. Please refer to MatrixOrderTest.java for all the unit test cases.
+
+
+Question #4
+---------------
+Please refer to ItoA.java for the solution and ItoATest.java for the unit tests.
