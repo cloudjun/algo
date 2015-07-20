@@ -12,6 +12,7 @@ public class FirstBadVersion {
      * @param n: An integers.
      * @return: An integer which is the first bad version.
      */
+    /*
     public int findFirstBadVersion(int n) {
         if (n < 1) {
             return 0;
@@ -36,4 +37,5 @@ public class FirstBadVersion {
         }
         return end;
     }
+    */
 }
