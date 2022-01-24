@@ -56,11 +56,11 @@ def binary_search(elements, target):
         return start
     if elements[end] >= target:
         return end
-    # return -1
+    return -1
 
 
 class Solution(object):
-    # DP
+    # DP: O(n^2)
     # def lengthOfLIS(self, elements):
     #     """
     #     :type elements: List[int]
@@ -79,7 +79,7 @@ class Solution(object):
     #                 result = max(result, dp[i])
     #     return result
 
-    # binary search
+    # binary search: O(nlog(n))
     def lengthOfLIS(self, nums):
         """
         :type nums: List[int]
@@ -101,6 +101,8 @@ class Solution(object):
                 if index != -1:
                     result[index] = num
         return len(result)
+
+
 # leetcode submit region end(Prohibit modification and deletion)
 
 print(Solution().lengthOfLIS([1, 3, 6, 7, 9, 4, 10, 5, 6]))
